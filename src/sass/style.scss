@@ -12,7 +12,12 @@ body {
 	background-color: #fff;
 	border: 1px solid #ccc;
 	margin: 1em auto;
-	padding: 2em;
 	max-width: 900px;
+	padding: 2em;
+	word-break: break-all;
+
+	h1 {
+		font-size: 18px;
+	}
 }
 

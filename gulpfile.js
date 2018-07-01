@@ -41,7 +41,7 @@ gulp.task('watch', function() {
 	gulp.watch('./dist/**/*', ['livereload']);
 });
 
-gulp.task('default', ['connect', 'html', 'script', 'sass', 'watch']);
+gulp.task('default', ['connect', 'watch', 'html', 'script', 'sass']);
 
 
 
