@@ -5,7 +5,7 @@ var babel = require('gulp-babel');
 
 gulp.task('connect', function() {
 	connect.server({
-		root: 'public',
+		root: 'dist',
 		port: 3000,
 		livereload: true
 	});
@@ -13,24 +13,24 @@ gulp.task('connect', function() {
 
 gulp.task('html', function () {
 	gulp.src('./src/*.html')
-		.pipe(gulp.dest('./public'))
+		.pipe(gulp.dest('./dist'))
 		.pipe(connect.reload());
 });
 
 gulp.task('script', function () {
 	gulp.src('src/scripts/*.js')
 		.pipe(babel())
-		.pipe(gulp.dest('./public/js'));
+		.pipe(gulp.dest('./dist/js'));
 });
 
 gulp.task('sass', function() {
 	return gulp.src('./src/sass/*.scss')
 			.pipe(sass({ errLogToConsole: true }))
-			.pipe(gulp.dest('./public/css'));
+			.pipe(gulp.dest('./dist/css'));
 });
 
 gulp.task('livereload', function() {
-	gulp.src('./public/**/*')
+	gulp.src('./dist/**/*')
 	.pipe(connect.reload());
 });
 
@@ -38,7 +38,7 @@ gulp.task('watch', function() {
 	gulp.watch('./src/sass/**/*.scss', ['sass']);
 	gulp.watch('./src/scripts/**/*.js', ['script']);
 	gulp.watch('./src/*.html', ['html']);
-	gulp.watch('./public/**/*', ['livereload']);
+	gulp.watch('./dist/**/*', ['livereload']);
 });
 
 gulp.task('default', ['connect', 'html', 'script', 'sass', 'watch']);
