@@ -1,0 +1,35 @@
+{
+  "name": "url-builder",
+  "version": "1.0.0",
+  "description": "A URL builder for Whirlpool marketing emails",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DouglasAmarelo/url-builder.git"
+  },
+  "keywords": [
+    "url-builder",
+    "whirlpool"
+  ],
+  "author": "@DouglasAmarelo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DouglasAmarelo/url-builder/issues"
+  },
+  "homepage": "https://github.com/DouglasAmarelo/url-builder#readme",
+  "babel": {
+      "presets": ["es2015"]
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-preset-es2015": "^6.24.1",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^7.0.1",
+    "gulp-connect": "^5.5.0",
+    "gulp-sass": "^4.0.1"
+  }
+}
