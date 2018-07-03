@@ -20,7 +20,8 @@ gulp.task('html', function () {
 gulp.task('script', function () {
 	gulp.src('src/scripts/*.js')
 		.pipe(babel())
-		.pipe(gulp.dest('./dist/js'));
+		.pipe(gulp.dest('./dist/js'))
+		.pipe(connect.reload());
 });
 
 gulp.task('sass', function() {

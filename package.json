@@ -21,7 +21,9 @@
   },
   "homepage": "https://github.com/DouglasAmarelo/url-builder#readme",
   "babel": {
-      "presets": ["es2015"]
+    "presets": [
+      "es2015"
+    ]
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

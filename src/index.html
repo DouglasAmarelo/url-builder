@@ -8,8 +8,75 @@
 	<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-	<div class="container">
-		<h1>URL Builder</h1>
+	<div class="container-wrap">
+		<div class="container">
+			<h1 class="page-title">URL Builder</h1>
+
+			<div class="url"></div>
+
+			<form action="#" class="url-form">
+				<fieldset>
+					<label for="loja">
+						Escolha a loja:
+					</label>
+					<select name="loja" id="loja">
+						<option value="Brastemp Value" data-url="https://loja.brastemp.com.br/">Brastemp Text</option>
+						<option value="Brastemp Empresa">Brastemp Empresa</option>
+						<option value="Consul">Consul</option>
+						<option value="Consul Empresa">Consul Empresa</option>
+						<option value="Direto na Loja">Direto na Loja</option>
+						<option value="Compra Certa - Corp">Compra Certa - Corp</option>
+						<option value="Compra Certa - Colab">Compra Certa - Colab</option>
+					</select>
+				</fieldset>
+
+				<fieldset>
+					<label for="produto">Link do produto</label>
+					<input type="text" name="produto" id="produto" class="url-form__produto">
+				</fieldset>
+
+				<fieldset>
+					<label for="utmSource">utm_source</label>
+					<input type="text" name="" id="utmSource" class="url-form__utmSource">
+				</fieldset>
+
+				<fieldset>
+					<label for="utmMedium">utm_medium</label>
+					<input type="text" name="" id="utmMedium" class="url-form__utmMedium">
+				</fieldset>
+
+				<fieldset>
+					<label for="utmCampaign">utm_campaign</label>
+					<input type="text" name="" id="utmCampaign" class="url-form__utmCampaign">
+				</fieldset>
+
+				<div class="campos-cc">
+					<fieldset>
+						<label for="login">Variável de login</label>
+						<input type="text" name="" id="login" class="url-form__login">
+					</fieldset>
+
+					<fieldset>
+						<label for="utmiCp">utmi_cp</label>
+						<input type="text" name="" id="utmiCp" class="url-form__utmiCp">
+					</fieldset>
+
+					<fieldset>
+						<label for="utmiPc">utmi_pc</label>
+						<input type="text" name="" id="utmiPc" class="url-form__utmiPc">
+					</fieldset>
+
+					<fieldset>
+						<label for="email">Variável de email</label>
+						<input type="text" name="" id="email" class="url-form__email">
+					</fieldset>
+				</div>
+
+				<fieldset class="text-right">
+					<input type="submit" value="Gerar URL">
+				</fieldset>
+			</form>
+		</div>
 	</div>
 	<script src="js/app.js"></script>
 </body>
