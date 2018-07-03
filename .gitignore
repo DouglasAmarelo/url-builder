@@ -51,6 +51,7 @@ node_modules
 .idea
 .elasticbeanstalk
 .vscode
+.vs
 .env
 bin
 /vendor
