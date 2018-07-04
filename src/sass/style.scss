@@ -16,12 +16,16 @@ body {
 	padding: 0;
 }
 
+// @IMPORTS
+@import '_tema.scss';
+
 .page-title { margin: 0 0 1em 0; }
 
 .container-wrap {
 	min-height: 100vh;
 	display: flex;
-	align-items: center;
+	// align-items: center;
+	align-items: flex-start;
 	justify-content: center;
 }
 
@@ -41,7 +45,7 @@ body {
 .url {
 	background-color: #eee;
 	border: 1px solid #ccc;
-	font-size: 12px;
+	font-size: 13px;
 	padding: 1.5em;
 	word-break: break-all;
 
@@ -78,6 +82,8 @@ body {
 		font-size: 14px;
 		padding: 10px;
 		width: 78%;
+
+		&.error { border-color: #d00; }
 	}
 
 	select {
@@ -85,19 +91,16 @@ body {
 		width: 30%;
 	}
 
-	input[type='submit'] {
-		display: inline-block;
-		padding: 10px 20px;
-		margin: 0;
-	}
-
-	// Esconde campos de Compra Certa
-	&[class*='compra'] {
-		.campos-cc {
-			opacity: 1;
-			max-height: 350px;
-			z-index: 1;
+	input[type='submit'],
+	input[type='reset'] {
+		@media (max-width: 450px) {
+			margin: 0 0 1em 0;
+			width: 100%;
 		}
+		display: inline-block;
+		padding: 13px 25px;
+		margin: 0 0 0 1em;
+		outline: none;
 	}
 }
 
@@ -110,6 +113,15 @@ body {
 		opacity .6s ease
 	;
 	z-index: -10;
+
+	// Esconde campos de Compra Certa
+	[class*='compra'] & {
+		& {
+			opacity: 1;
+			max-height: 350px;
+			z-index: 1;
+		}
+	}
 }
 
 

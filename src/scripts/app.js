@@ -12,18 +12,21 @@
 	// let   paramEmail    = paramLogin;
 
 	// Variables
-	const $formUrl      = document.querySelector('.url-form');
-	const $url          = document.querySelector('.url');
-	const urlLoja       = 'https://loja.compracerta.com.br';
-	let paramSearch;
-	let paramLogin;
-	let paramSource;
-	let paramMedium;
-	let paramCampaign;
-	let paramCp;
-	let paramPc;
-	let paramEmail;
-	let completeUrl;
+	const $formUrl = document.querySelector('.url-form');
+	const $body    = document.querySelector('body');
+	const $url     = document.querySelector('.url');
+	const urlLoja  = 'https://loja.compracerta.com.br';
+	const $reset = document.querySelector('input[type="reset"]');
+	let   inputs   = $formUrl.querySelectorAll('input[type="text"]');
+	let paramSearch,
+		paramLogin,
+		paramSource,
+		paramMedium,
+		paramCampaign,
+		paramCp,
+		paramPc,
+		paramEmail,
+		completeUrl;
 
 	// Atualiza o valor das variáveis com o valor dos campos
 	function updateVariables() {
@@ -35,13 +38,10 @@
 		paramCp       = $formUrl.utmiCp.value;
 		paramPc       = $formUrl.utmiPc.value;
 		paramEmail    = $formUrl.email.value;
-
-		// Atualiza a URL final
-		urlTemplate();
 	}
 
 	// Define o template com base na loja escolhida
-	function urlTemplate() {
+	const urlTemplate = () => {
 		let loja = $formUrl.loja.value;
 
 		// var sel = document.querySelector('#loja');
@@ -59,9 +59,32 @@
 		$url.textContent = completeUrl;
 	}
 
+	// Faz a validação do formulário
+	const formValidation = (instruction) => {
+		inputs.forEach(( item, index ) => {
+			if ( instruction === 'addError' ) {
+				if (item.value === '' || item.value === undefined) {
+					item.classList.add('error');
+				}
+			}
+
+			if ( instruction === 'removeError' ) {
+				item.classList.remove('error');
+			}
+		});
+	}
+
 	// Cmpos do formulário
-	$formUrl.addEventListener('change', function(e) {
+	$formUrl.addEventListener('change', () => {
 		updateVariables();
+		formValidation('removeError');
+	});
+
+	// Reset
+	$reset.addEventListener('click', () => {
+		formValidation('removeError');
+		$body.removeAttribute('class');
+		$url.textContent = '';
 	});
 
 	// Select do formulário
@@ -71,12 +94,15 @@
 		text = text.replace(/-/gm, '');
 		text = text.replace(/\s+/gm, '-');
 
-		$formUrl.setAttribute('class', `url-form ${text}`);
+		$body.setAttribute('class', `${text}`);
 	});
 
 	// Submit do formulário
 	$formUrl.addEventListener('submit', function(e) {
 		e.preventDefault();
+		formValidation('addError');
+		// Atualiza a URL final
+		urlTemplate();
 	});
 
 })();
