@@ -1,6 +1,5 @@
 (function() {
 	'use strict';
-
 	// const urlLoja       = 'https://loja.compracerta.com.br';
 	// let   paramSearch   = 'lava-loucas-brastemp-14-servicos-blf14ae-2003643/p';
 	// let   paramLogin    = 'douglas@jussi.com.br';
@@ -16,7 +15,7 @@
 	const $body    = document.querySelector('body');
 	const $url     = document.querySelector('.url');
 	const urlLoja  = 'https://loja.compracerta.com.br';
-	const $reset = document.querySelector('input[type="reset"]');
+	const $reset   = document.querySelector('input[type="reset"]');
 	let   inputs   = $formUrl.querySelectorAll('input[type="text"]');
 	let paramSearch,
 		paramLogin,
@@ -89,10 +88,10 @@
 
 	// Select do formulário
 	$formUrl.loja.addEventListener('change', function() {
-		let text = this.value
-		text = text.toLocaleLowerCase();
-		text = text.replace(/-/gm, '');
-		text = text.replace(/\s+/gm, '-');
+		let text = this.value;
+			text = text.toLocaleLowerCase()
+						.replace(/-/gm, '')
+						.replace(/\s+/gm, '-');
 
 		$body.setAttribute('class', `${text}`);
 	});
@@ -101,8 +100,8 @@
 	$formUrl.addEventListener('submit', function(e) {
 		e.preventDefault();
 		formValidation('addError');
+
 		// Atualiza a URL final
 		urlTemplate();
 	});
-
 })();

@@ -1,7 +1,7 @@
-var gulp = require('gulp');
-var sass = require('gulp-sass');
+var gulp    = require('gulp');
+var sass    = require('gulp-sass');
 var connect = require('gulp-connect');
-var babel = require('gulp-babel');
+var babel   = require('gulp-babel');
 
 gulp.task('connect', function() {
 	connect.server({
@@ -25,7 +25,7 @@ gulp.task('script', function () {
 });
 
 gulp.task('sass', function() {
-	return gulp.src('./src/sass/*.scss')
+	return gulp.src('./src/sass/**/*.scss')
 			.pipe(sass({ errLogToConsole: true }))
 			.pipe(gulp.dest('./dist/css'));
 });

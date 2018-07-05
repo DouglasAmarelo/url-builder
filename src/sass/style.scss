@@ -16,10 +16,7 @@ body {
 	padding: 0;
 }
 
-// @IMPORTS
-@import '_tema.scss';
-
-.page-title { margin: 0 0 1em 0; }
+.page-title { margin: 1em 0; }
 
 .container-wrap {
 	min-height: 100vh;
@@ -31,11 +28,7 @@ body {
 
 .container {
 	display: block;
-	background-color: #fff;
-	border: 1px solid #ccc;
 	max-width: 900px;
-	padding: 2em;
-	margin: 1em;
 	word-break: break-all;
 	width: 100%;
 }
@@ -55,6 +48,12 @@ body {
 
 .url-form {
 	display: block;
+	background-color: #fff;
+	border: 1px solid #ccc;
+	max-width: 900px;
+	padding: 2em;
+	word-break: break-all;
+	width: 100%;
 
 	fieldset {
 		display: block;
@@ -122,6 +121,44 @@ body {
 			z-index: 1;
 		}
 	}
+}
+
+
+// Temas
+$brastemp-color      : #f35216;
+$brastemp-color-title: #ffffff;
+
+$consul-color      : #9aca3c;
+$consul-color-title: #ffffff;
+
+$compra-certa-color      : #592b6d;
+$compra-certa-color-title: #ffffff;
+
+$direto-na-loja-color      : #3b3b3a;
+$direto-na-loja-color-title: #ffcb0b;
+
+body[class*='brastemp'] {
+	background-color: $brastemp-color;
+
+	.page-title { color: $brastemp-color-title; }
+}
+
+body[class*='consul'] {
+	background-color: $consul-color;
+
+	.page-title { color: $consul-color-title; }
+}
+
+body[class*='compra'] {
+	background-color: $compra-certa-color;
+
+	.page-title { color: $compra-certa-color-title; }
+}
+
+body[class*='direto'] {
+	background-color: $direto-na-loja-color;
+
+	.page-title { color: $direto-na-loja-color-title; }
 }
 
 
