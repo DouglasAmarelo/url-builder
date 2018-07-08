@@ -9,7 +9,7 @@
 	const $inputs    = $form.querySelectorAll('[class*="url-form__"]');
 	const $store = document.querySelector('.text-loja');
 	let urlLoja,
-		paramProducts,
+		paramProduct,
 		paramLogin,
 		paramSource,
 		paramMedium,
@@ -22,7 +22,7 @@
 	// Atualiza o valor das variáveis com o valor dos campos
 	function updateVariables() {
 		urlLoja       = $form.loja.options[$form.loja.selectedIndex].getAttribute('data-url');
-		paramProducts = $form.produto.value;
+		paramProduct  = $form.produto.value;
 		paramLogin    = $form.login.value;
 		paramSource   = $form.utmSource.value;
 		paramMedium   = $form.utmMedium.value;
@@ -47,49 +47,51 @@
 		});
 	}
 
-	// Define o template com base na loja escolhida
-	function generateUrl() {
-		let loja = $form.loja.value;
+	// Pega as URLs os produtos e passa para o gerador de URL
+	document.querySelector('#produto').value = '/geladeira/p, /fogao/p, 102030';
+	function getProducts() {
+		let products = $form.produto.value;
+		let store = $form.loja.value;
+		let type;
 
-		completeUrl = `${urlLoja + paramProducts}?utm_source=${paramSource}&utm_medium=${paramMedium}&utm_campaign=${paramCampaign}&utmi_cp=${paramCp}&utmi_pc=${paramPc}`;
+		products = products.split(',');
 
-		if (loja === 'Compra Certa (Corp)' || loja === 'Compra Certa (Colab)') {
-			completeUrl = `${urlLoja + paramProducts}?login=${paramLogin}&ReturnUrl=/${paramProducts}?utm_source=${paramSource}&utm_medium=${paramMedium}&utm_campaign=${paramCampaign}&utmi_cp=${paramCp}&utmi_pc=${paramPc}&email=${paramEmail}`;
-		}
 
-		$url.textContent = completeUrl;
+		console.log( products );
+		console.log( Object.prototype.toString.call(products) );
 	}
 
+	getProducts();
 
-	// Verifica os campos que tem informação e registra
-	// parâmetros e valores no objeto "data"
-	// function getParam() {
-	// 	let data = [];
+	// Define o template com base na loja escolhida
+	function generateUrl(store, product, type) {
+		let paramClosedStore = '';
+		let urlType = type === 'busca' ? '/busca/?fq=H:' : '';
+		paramProduct = urlType + product;
 
-	// 	document.querySelectorAll('input[type=text]').forEach(( item, index ) => {
-	// 		if ( item.value !== '' && item.value !== undefined ) {
-	// 			data.push(
-	// 				{
-	// 					"param": item.getAttribute('data-param'),
-	// 					"val": item.value
-	// 				}
-	// 			);
-	// 		}
-	// 	});
+		if (store.includes('Compra Certa')) {
+			paramClosedStore = `login=${paramLogin}&ReturnUrl=${paramProduct}?email=${paramEmail}&utmi_cp=${paramCp}&utmi_pc=${paramPc}&`;
+		}
 
+		completeUrl = `${urlLoja}${paramProduct}?${paramClosedStore}utm_source=${paramSource}&utm_medium=${paramMedium}&utm_campaign=${paramCampaign}`;
 
-	// 	data.map( item => {
-	// 		if (item.param === 'login') {
-	// 			item.param = `ReturnUrl=/${item.param}`;
-	// 		}
-	// 	});
+		console.log( completeUrl );
 
-	// 	data = data.map( item => `${item.param}=${item.val}` );
+		return completeUrl;
+	}
 
-	// 	console.log(data);
+	console.log('\n\n');
+	generateUrl('Compra Certa', '/geladeira/p');
+	generateUrl('Compra Certa', '102030', 'busca');
+	console.log('\n\n');
+	generateUrl('Brastemp', '/fogao/p');
+	generateUrl('Brastemp', '102030', 'busca');
 
-	// 	return data;
-	// }
+	// Exibe as URLs na tela
+	function printUrls(url) {
+		$url.textContent = url;
+	}
+
 
 	// Reset
 	function resetForm() {
@@ -134,21 +136,6 @@
 		formValidation('addError');
 	});
 
-
-
-
-
-	document.querySelector('#produto').value = '/geladeira/p, /fogao/p, 102030';
-	function getProducts() {
-		let products = $form.produto.value;
-		products = products.split(',');
-
-
-		console.log( products );
-		console.log( Object.prototype.toString.call(products) );
-	}
-
-	getProducts();
 
 
 })();
