@@ -2,12 +2,12 @@
 	'use strict';
 
 	// Variables
-	const $form  = document.querySelector('.url-form');
-	const $body     = document.querySelector('body');
-	const $url      = document.querySelector('.url');
-	const $reset    = document.querySelector('input[type="reset"]');
-	const $inputs    = $form.querySelectorAll('[class*="url-form__"]');
-	const $store = document.querySelector('.text-loja');
+	const $form   = document.querySelector('.url-form');
+	const $body   = document.querySelector('body');
+	const $url    = document.querySelector('.url-list');
+	const $reset  = document.querySelector('input[type="reset"]');
+	const $inputs = $form.querySelectorAll('[class*="url-form__"]');
+	const $store  = document.querySelector('.text-loja');
 	let urlLoja,
 		paramProduct,
 		paramLogin,
@@ -22,7 +22,7 @@
 	// Atualiza o valor das variáveis com o valor dos campos
 	function updateVariables() {
 		urlLoja       = $form.loja.options[$form.loja.selectedIndex].getAttribute('data-url');
-		paramProduct  = $form.produto.value;
+		// paramProduct  = $form.produto.value;
 		paramLogin    = $form.login.value;
 		paramSource   = $form.utmSource.value;
 		paramMedium   = $form.utmMedium.value;
@@ -56,18 +56,21 @@
 
 		products = products.split(',');
 
+		products.map(product => {
+			product = product.replace(/\s+/, '');
+			type = !!product.match(/\b\d+\b/gmi);
 
-		console.log( products );
-		console.log( Object.prototype.toString.call(products) );
+			generateUrl(store, product, type)
+		});
 	}
-
-	getProducts();
 
 	// Define o template com base na loja escolhida
 	function generateUrl(store, product, type) {
 		let paramClosedStore = '';
-		let urlType = type === 'busca' ? '/busca/?fq=H:' : '';
+		let urlType = type === true ? '/busca/?fq=H:' : '';
 		paramProduct = urlType + product;
+
+		updateVariables();
 
 		if (store.includes('Compra Certa')) {
 			paramClosedStore = `login=${paramLogin}&ReturnUrl=${paramProduct}?email=${paramEmail}&utmi_cp=${paramCp}&utmi_pc=${paramPc}&`;
@@ -75,21 +78,17 @@
 
 		completeUrl = `${urlLoja}${paramProduct}?${paramClosedStore}utm_source=${paramSource}&utm_medium=${paramMedium}&utm_campaign=${paramCampaign}`;
 
-		console.log( completeUrl );
-
-		return completeUrl;
+		printUrls(completeUrl);
 	}
-
-	console.log('\n\n');
-	generateUrl('Compra Certa', '/geladeira/p');
-	generateUrl('Compra Certa', '102030', 'busca');
-	console.log('\n\n');
-	generateUrl('Brastemp', '/fogao/p');
-	generateUrl('Brastemp', '102030', 'busca');
 
 	// Exibe as URLs na tela
 	function printUrls(url) {
-		$url.textContent = url;
+		let li = document.createElement('li');
+		li.textContent = url;
+		setTimeout(() => {
+
+			$url.appendChild(li);
+		}, 1000);
 	}
 
 
@@ -98,14 +97,14 @@
 		formValidation('removeError');
 		$body.removeAttribute('class');
 		$url.textContent = '';
+		$store.textContent = '';
 	}
 
 	$reset.addEventListener('click', resetForm);
 
 
-	// Assiste as mudanças nos campos do formulário
+	// Remove os erros do formulário ao perceber mudanças nos campos
 	$form.addEventListener('change', () => {
-		updateVariables();
 		formValidation('removeError');
 	});
 
@@ -127,7 +126,7 @@
 
 		// Atualiza a URL final
 		if ($form.loja.value !== 'Selecione a loja') {
-			generateUrl();
+			getProducts();
 		}
 		else {
 			resetForm();
