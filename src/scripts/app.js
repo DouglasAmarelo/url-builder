@@ -108,7 +108,6 @@
 		formValidation('removeError');
 	});
 
-
 	// Select do formulário
 	$form.loja.addEventListener('change', function() {
 		let text = this.value;
