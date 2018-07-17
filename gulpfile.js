@@ -9,6 +9,7 @@ gulp.task('browserSync', function() {
 		server: {
 			baseDir: 'dist'
 		},
+		notify: false
 	})
 });
 
@@ -35,10 +36,6 @@ gulp.task('sass', function() {
 			}));
 });
 
-gulp.task('livereload', function() {
-	gulp.src('./dist/**/*')
-	.pipe(connect.reload());
-});
 
 gulp.task('watch', ['script', 'sass', 'html'], function() {
 	gulp.watch('./src/sass/**/*.scss', ['sass']);
