@@ -10,14 +10,18 @@
 <body>
 	<div class="container-wrap">
 		<div class="container">
+			<!-- Header -->
 			<header>
 				<h1 class="page-title">URL Builder<strong class="text-loja"></strong></h1>
 			</header>
+			<!-- /Header -->
 
+			<!-- Form -->
 			<form action="#" class="url-form">
+				<!-- Escolher loja -->
 				<fieldset class="input-container no-margin">
 					<label class="label" for="loja">Escolha a loja:</label>
-					<select name="loja" id="loja" autofocus required>
+					<select name="loja" id="loja" autofocus>
 						<option value="Selecione a loja">Selecione a loja</option>
 						<option value="Brastemp" data-url="https://loja.brastemp.com.br">Brastemp</option>
 						<!-- <option value="Brastemp Empresa" data-url="https://loja.brastempempresa.com.br">Brastemp Empresa</option> -->
@@ -28,6 +32,7 @@
 						<option value="Compra Certa - Colab" data-url="https://colaborador.compracerta.com.br">Compra Certa - Colab</option>
 					</select>
 				</fieldset>
+				<!-- /Escolher loja -->
 
 				<fieldset class="input-container">
 					<label class="label" for="produto">
@@ -42,26 +47,25 @@
 						</div>
 					</label>
 					<textarea name="produto" id="produto" class="url-form__produto" placeholder="1058, /lorem-ipsum-dolor/p" required></textarea>
-
 					<small class="legend">Produtos e/ou ID's de coleções separados por vírgula</small>
 				</fieldset>
 
 				<div class="flex between">
 					<fieldset class="input-container">
 						<label class="label" for="utmSource">utm_source *</label>
-						<input type="text" name="utmSource" id="utmSource" data-param="utm_source" class="url-form__utmSource" placeholder="whirlpool" required>
+						<input type="text" name="utmSource" id="utmSource" class="url-form__utmSource" placeholder="whirlpool" required>
 						<small class="legend">Origem (Nome da mídia)</small>
 					</fieldset>
 
 					<fieldset class="input-container">
 						<label class="label" for="utmMedium">utm_medium *</label>
-						<input type="text" name="utmMedium" id="utmMedium" data-param="utm_medium" class="url-form__utmMedium" placeholder="lorem_ipsum" required>
+						<input type="text" name="utmMedium" id="utmMedium" class="url-form__utmMedium" placeholder="lorem_ipsum" required>
 						<small class="legend">Mídia</small>
 					</fieldset>
 
 					<fieldset class="input-container">
 						<label class="label" for="utmCampaign">utm_campaign *</label>
-						<input type="text" name="utmCampaign" id="utmCampaign" data-param="utm_campaign" class="url-form__utmCampaign" placeholder="lorem_16112018_ipsum" required>
+						<input type="text" name="utmCampaign" id="utmCampaign" class="url-form__utmCampaign" placeholder="lorem_16112018_ipsum" required>
 						<small class="legend">Nome da Campanha + Data (DDMMAAAA) + Natureza da mídia (somente para CRM)</small>
 					</fieldset>
 
@@ -69,7 +73,7 @@
 						<label class="label" for="login">
 							Variável de login e email
 						</label>
-						<input type="text" name="login" id="login" data-param="login" class="url-form__login" placeholder="%%emailaddr%%">
+						<input type="text" name="login" id="login" class="url-form__login" placeholder="%%emailaddr%%">
 						<small class="legend">Variável da ferramenta de disparo</small>
 					</fieldset>
 				</div>
@@ -77,25 +81,25 @@
 				<div class="flex between">
 					<fieldset class="input-container">
 						<label class="label" for="utmiPc">utmi_pc</label>
-						<input type="text" name="utmiPc" id="utmiPc" data-param="utmi_pc" class="url-form__utmiPc" placeholder="lorem_ipsum">
+						<input type="text" name="utmiPc" id="utmiPc" class="url-form__utmiPc" placeholder="lorem_ipsum">
 						<small class="legend">Parceria interna (Vtex)</small>
 					</fieldset>
 
 					<fieldset class="input-container">
 						<label class="label" for="utmiCp">utmi_cp</label>
-						<input type="text" name="utmiCp" id="utmiCp" data-param="utmi_cp" class="url-form__utmiCp" placeholder="lorem_ipsum">
+						<input type="text" name="utmiCp" id="utmiCp" class="url-form__utmiCp" placeholder="lorem_ipsum">
 						<small class="legend">Campanha interna (Vtex)</small>
 					</fieldset>
 
 					<fieldset class="input-container">
 						<label class="label" for="utmContent">utm_content</label>
-						<input type="text" name="utmContent" id="utmContent" data-param="utm_content" class="url-form__utmContent" placeholder="lorem_ipsum">
+						<input type="text" name="utmContent" id="utmContent" class="url-form__utmContent" placeholder="lorem_ipsum">
 						<small class="legend">Content - *Opcional</small>
 					</fieldset>
 
 					<fieldset class="input-container">
 						<label class="label" for="utmTerm">utm_term</label>
-						<input type="text" name="utmTerm" id="utmTerm" data-param="utm_term" class="url-form__utmTerm" placeholder="lorem_ipsum">
+						<input type="text" name="utmTerm" id="utmTerm" class="url-form__utmTerm" placeholder="lorem_ipsum">
 						<small class="legend">Termo - *Opcional</small>
 					</fieldset>
 				</div>
@@ -105,11 +109,14 @@
 					<input type="submit" value="Gerar URL">
 				</fieldset>
 			</form>
+			<!-- /Form -->
 
+			<!-- Url list -->
 			<div class="url-container">
 				<ul class="url-list"></ul>
 				<h2 class="url-title">URL's Geradas:</h2>
 			</div>
+			<!-- /Url list -->
 		</div>
 	</div>
 	<script src="js/app.js"></script>
