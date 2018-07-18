@@ -17,57 +17,68 @@
 			<form action="#" class="url-form">
 				<fieldset class="input-container no-margin">
 					<label class="label" for="loja">Escolha a loja:</label>
-					<select name="loja" id="loja" autofocus>
+					<select name="loja" id="loja" autofocus required>
 						<option value="Selecione a loja">Selecione a loja</option>
 						<option value="Brastemp" data-url="https://loja.brastemp.com.br">Brastemp</option>
-						<option value="Brastemp Empresa" data-url="https://loja.brastempempresa.com.br">Brastemp Empresa</option>
+						<!-- <option value="Brastemp Empresa" data-url="https://loja.brastempempresa.com.br">Brastemp Empresa</option> -->
 						<option value="Consul" data-url="https://loja.consul.com.br">Consul</option>
-						<option value="Consul Empresa" data-url="https://loja.consulempresa.com.br">Consul Empresa</option>
+						<!-- <option value="Consul Empresa" data-url="https://loja.consulempresa.com.br">Consul Empresa</option> -->
 						<!-- <option value="Direto na Loja" data-url="https://www.diretonaloja.com.br">Direto na Loja</option> -->
-						<option value="Compra Certa (Corp)" data-url="https://loja.compracerta.com.br">Compra Certa - Corp</option>
-						<option value="Compra Certa (Colab)" data-url="https://colaborador.compracerta.com.br">Compra Certa - Colab</option>
+						<option value="Compra Certa - Corp" data-url="https://loja.compracerta.com.br">Compra Certa - Corp</option>
+						<option value="Compra Certa - Colab" data-url="https://colaborador.compracerta.com.br">Compra Certa - Colab</option>
 					</select>
 				</fieldset>
 
 				<fieldset class="input-container">
 					<label class="label" for="produto">
-						ID da Coleção <span>(número)</span>
+						<div class="mobile-inline">
+							ID da Coleção
+							<span>(somente número)</span>
+						</div>
 						<br><br>
-						Link do produto <br>
-						<span>(iniciando com "/")</span>
+						<div class="mobile-inline">
+							Link do produto
+							<span>(iniciando com "/")</span>
+						</div>
 					</label>
-					<textarea name="produto" id="produto" class="url-form__produto" placeholder="1058, /lorem-ipsum-dolor/p"></textarea>
+					<textarea name="produto" id="produto" class="url-form__produto" placeholder="1058, /lorem-ipsum-dolor/p" required></textarea>
 
 					<small class="legend">Produtos e/ou ID's de coleções separados por vírgula</small>
 				</fieldset>
 
 				<div class="flex between">
 					<fieldset class="input-container">
-						<label class="label" for="utmSource">utm_source</label>
-						<input type="text" name="utmSource" id="utmSource" data-param="utm_source" class="url-form__utmSource" placeholder="whirlpool">
+						<label class="label" for="utmSource">utm_source *</label>
+						<input type="text" name="utmSource" id="utmSource" data-param="utm_source" class="url-form__utmSource" placeholder="whirlpool" required>
 						<small class="legend">Origem (Nome da mídia)</small>
 					</fieldset>
 
 					<fieldset class="input-container">
-						<label class="label" for="utmMedium">utm_medium</label>
-						<input type="text" name="utmMedium" id="utmMedium" data-param="utm_medium" class="url-form__utmMedium" placeholder="lorem_ipsum">
+						<label class="label" for="utmMedium">utm_medium *</label>
+						<input type="text" name="utmMedium" id="utmMedium" data-param="utm_medium" class="url-form__utmMedium" placeholder="lorem_ipsum" required>
 						<small class="legend">Mídia</small>
 					</fieldset>
 
 					<fieldset class="input-container">
-						<label class="label" for="utmCampaign">utm_campaign</label>
-						<input type="text" name="utmCampaign" id="utmCampaign" data-param="utm_campaign" class="url-form__utmCampaign" placeholder="lorem_16112018_ipsum">
+						<label class="label" for="utmCampaign">utm_campaign *</label>
+						<input type="text" name="utmCampaign" id="utmCampaign" data-param="utm_campaign" class="url-form__utmCampaign" placeholder="lorem_16112018_ipsum" required>
 						<small class="legend">Nome da Campanha + Data (DDMMAAAA) + Natureza da mídia (somente para CRM)</small>
 					</fieldset>
-				</div>
 
-				<div class="flex between campos-cc">
 					<fieldset class="input-container">
 						<label class="label" for="login">
 							Variável de login e email
 						</label>
 						<input type="text" name="login" id="login" data-param="login" class="url-form__login" placeholder="%%emailaddr%%">
 						<small class="legend">Variável da ferramenta de disparo</small>
+					</fieldset>
+				</div>
+
+				<div class="flex between">
+					<fieldset class="input-container">
+						<label class="label" for="utmiPc">utmi_pc</label>
+						<input type="text" name="utmiPc" id="utmiPc" data-param="utmi_pc" class="url-form__utmiPc" placeholder="lorem_ipsum">
+						<small class="legend">Parceria interna (Vtex)</small>
 					</fieldset>
 
 					<fieldset class="input-container">
@@ -77,13 +88,19 @@
 					</fieldset>
 
 					<fieldset class="input-container">
-						<label class="label" for="utmiPc">utmi_pc</label>
-						<input type="text" name="utmiPc" id="utmiPc" data-param="utmi_pc" class="url-form__utmiPc" placeholder="lorem_ipsum">
-						<small class="legend">Parceria interna (Vtex)</small>
+						<label class="label" for="utmContent">utm_content</label>
+						<input type="text" name="utmContent" id="utmContent" data-param="utm_content" class="url-form__utmContent" placeholder="lorem_ipsum">
+						<small class="legend">Content - *Opcional</small>
+					</fieldset>
+
+					<fieldset class="input-container">
+						<label class="label" for="utmTerm">utm_term</label>
+						<input type="text" name="utmTerm" id="utmTerm" data-param="utm_term" class="url-form__utmTerm" placeholder="lorem_ipsum">
+						<small class="legend">Termo - *Opcional</small>
 					</fieldset>
 				</div>
 
-				<fieldset class="input-container text-right">
+				<fieldset class="input-container text-right action-buttons">
 					<input type="reset" value="Limpar campos">
 					<input type="submit" value="Gerar URL">
 				</fieldset>
@@ -92,9 +109,6 @@
 			<div class="url-container">
 				<ul class="url-list"></ul>
 				<h2 class="url-title">URL's Geradas:</h2>
-				<!-- <li>https://loja.brastemp.com.br/geladeira/p?utm_source=&amp;utm_medium=&amp;utm_campaign=</li>
-				<li>https://loja.brastemp.com.br/fogao/p?utm_source=&amp;utm_medium=&amp;utm_campaign=</li>
-				<li>https://loja.brastemp.com.br/busca/?fq=H:102030?utm_source=&amp;utm_medium=&amp;utm_campaign=</li> -->
 			</div>
 		</div>
 	</div>

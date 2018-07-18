@@ -17,7 +17,8 @@
 		paramCp,
 		paramPc,
 		paramEmail,
-		completeUrl;
+		paramContent,
+		paramTerm;
 
 	let app = {};
 
@@ -30,13 +31,13 @@
 
 		// Remove os erros do formulário ao perceber mudanças nos campos
 		$form.addEventListener('change', () => {
-			app.formValidation('removeError');
+			// app.formValidation('removeError');
 		});
 
 		// Select do formulário
 		$form.loja.addEventListener('change', function() {
 			let text = this.value;
-			$store.textContent = text !== 'Selecione a loja' ? text : '';
+			app.changeTitle(text);
 
 			text = text.toLocaleLowerCase().replace(/-/gm, '').replace(/\s+/gm, '-');
 
@@ -56,9 +57,14 @@
 				app.resetForm();
 			}
 
-			app.formValidation('addError');
+			// app.formValidation('addError');
 		});
-	};
+	}
+
+	// Muda o título da página com base na loja selecionada
+	app.changeTitle = (title) => {
+		$store.textContent = title !== 'Selecione a loja' ? title : '';
+	}
 
 	// Atualiza o valor das variáveis com o valor dos campos
 	app.updateVariables = () => {
@@ -70,13 +76,15 @@
 		paramCp       = $form.utmiCp.value;
 		paramPc       = $form.utmiPc.value;
 		paramEmail    = paramLogin;
+		paramContent  = $form.utmContent.value;
+		paramTerm     = $form.utmTerm.value;
 	}
 
 	// Faz a validação do formulário
 	app.formValidation = (instruction) => {
-		$inputs.forEach(( item ) => {
-			if ( instruction === 'addError' ) {
-				if (item.value === '' || item.value === undefined) {
+		$inputs.forEach((item) => {
+			if (instruction === 'addError') {
+				if (item.value === '' || item.value === undefined || item.value === null) {
 					item.classList.add('error');
 				}
 			}
@@ -91,51 +99,43 @@
 	app.getProducts = () => {
 		let products = $form.produto.value;
 		let store    = $form.loja.value;
-		let type;
+		let isColection;
 
-		products = products.split(',');
+		products = products.replace(/\s+/gmi, '').split(',');
 
 		products.map(product => {
-			product = product.replace(/\s+/, '');
-			type = !!product.match(/\b\d+\b/gmi);
+			isColection = !!!product.match(/\/\S+\/p/gmi);
 
-			app.generateUrl(store, product, app.getParams(), type);
+			app.generateUrl(store, product, isColection);
 		});
-	}
-
-	// Pera os parâmetros de todos os inputs preenchidos
-	app.getParams = () => {
-		let params = [];
-		let $inputs = document.querySelectorAll('input[type="text"]');
-		let $formInputs = [...$inputs];
-
-		$formInputs.map((item) => {
-			if (item.value !== undefined && item.value !== '' && item.param !== null) {
-				params.push({
-					'valor' : item.value,
-					'param' : item.getAttribute('data-param')
-				});
-			}
-		});
-
-		return params;
 	}
 
 	// Define o template com base na loja escolhida
-	app.generateUrl = (store, product, params, type) => {
-		let paramClosedStore = '';
-		let urlType = type === true ? '/busca/?fq=H:' : '';
-		paramProduct = urlType + product;
-
-		console.log('##########', params);
-
+	app.generateUrl = (store, product, isColection) => {
 		app.updateVariables();
 
-		if (store.includes('Compra Certa')) {
-			paramClosedStore = `login=${paramLogin}&ReturnUrl=${paramProduct}?email=${paramEmail}&utmi_cp=${paramCp}&utmi_pc=${paramPc}&`;
+		let urlType = isColection ? '/busca/?fq=H:' : '';
+		let paramColecao = isColection ? '&' : '?';
+		let completeUrl;
+
+		paramProduct = urlType + product;
+
+		if (store.includes('Corp')) {
+			completeUrl = `${urlLoja}${paramProduct}${paramColecao}utmi_pc=${paramPc}&utmi_cp=${paramCp}&login=${paramLogin}&ReturnUrl=${paramProduct}${paramColecao}utm_source=${paramSource}&utm_medium=${paramMedium}&utm_campaign=${paramCampaign}&email=${paramEmail}&utm_content=${paramContent}&utm_term=${paramTerm}&`;
+		}
+		else if (store.includes('Colab')) {
+			completeUrl = `${urlLoja}/sistema/401?&email=${paramEmail}&ReturnUrl=${paramProduct}${paramColecao}utmi_pc=${paramPc}&utmi_cp=${paramCp}&utm_source=${paramSource}&utm_medium=${paramMedium}&utm_campaign=${paramCampaign}&utm_content=${paramContent}&utm_term=${paramTerm}&`;
+		}
+		else {
+			completeUrl = `${urlLoja}${paramProduct}${paramColecao}utm_source=${paramSource}&utm_medium=${paramMedium}&utm_campaign=${paramCampaign}&utmi_pc=${paramPc}&utmi_cp=${paramCp}&utm_content=${paramContent}&utm_term=${paramTerm}&`;
 		}
 
-		completeUrl = `${urlLoja}${paramProduct}?${paramClosedStore}utm_source=${paramSource}&utm_medium=${paramMedium}&utm_campaign=${paramCampaign}`;
+		completeUrl = completeUrl.toLocaleLowerCase();
+		completeUrl = completeUrl.trim();
+		completeUrl = completeUrl.replace(/\w+=&/gmi, '');
+		completeUrl = completeUrl.replace(/&$/gmi, '');
+
+		// console.log('completeUrl', completeUrl);
 
 		app.printUrls(completeUrl);
 	}
@@ -149,10 +149,10 @@
 
 	// Reset
 	app.resetForm = () => {
-		app.formValidation('removeError');
+		// app.formValidation('removeError');
 		app.clearUrlContainer();
 		$body.removeAttribute('class');
-		$store.textContent = '';
+		app.changeTitle('');
 	}
 
 	// Clear the container with all URL's
