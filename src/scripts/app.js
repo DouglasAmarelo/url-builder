@@ -47,6 +47,9 @@
 			text = text.replace(/\s+/gm, '-');
 
 			$body.setAttribute('class', `${text}`);
+
+			// Atualiza as URL's geradas
+			app.updateAll();
 		});
 
 		// Submit do formulário
@@ -54,13 +57,7 @@
 			e.preventDefault();
 
 			// Atualiza a URL final
-			if ($form.loja.value !== 'Selecione a loja') {
-				app.clearUrlContainer();
-				app.getProducts();
-			}
-			else {
-				app.resetForm();
-			}
+			app.updateAll();
 		});
 	};
 
@@ -138,7 +135,17 @@
 	// Exibe as URLs na tela
 	app.printUrls = (url) => {
 		let li = document.createElement('li');
-		li.textContent = url;
+		let template = `
+			${url}
+			<button class="copy copy-one">
+				Copiar
+				<span class="copied">Copiado!</span>
+			</button>
+		`;
+
+		li.classList.add('url-list__item');
+
+		li.innerHTML = template;
 		$url.appendChild(li);
 	};
 
@@ -151,6 +158,17 @@
 
 	// Clear the container with all URL's
 	app.clearUrlContainer = () => $url.innerHTML = '';
+
+	// Atualiza o formulário e chama a função de gerar URL's
+	app.updateAll = () => {
+		if ($form.loja.value !== 'Selecione a loja') {
+			app.clearUrlContainer();
+			app.getProducts();
+		}
+		else {
+			app.resetForm();
+		}
+	};
 
 	// Inicia a aplicação
 	app.init();

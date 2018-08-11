@@ -9,7 +9,7 @@ body {
 }
 
 body {
-	background-color: #eee;
+	background-color: #f3f3f3;
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 	margin: 0;
 	padding: 0;
@@ -30,8 +30,7 @@ body {
 .arrownd { justify-content: space-around;}
 .between { justify-content: space-between;}
 
-
-// Temas
+// Cores
 $brastemp-color             : #f35216;
 $brastemp-color-title       : #ffffff;
 $consul-color               : #9aca3c;
@@ -41,26 +40,58 @@ $compra-certa-color-title   : #ffffff;
 $direto-na-loja-color       : #3b3b3a;
 $direto-na-loja-color-title : #ffcb0b;
 
-body[class*='brastemp'] {
-	background-color: $brastemp-color;
-	.page-title { color: $brastemp-color-title; }
+// Temas
+$lojas: (
+	brastemp: (
+		cor-loja   : $brastemp-color,
+		cor-titulo : $brastemp-color-title
+	),
+	consul: (
+		cor-loja   : $consul-color,
+		cor-titulo : $consul-color-title
+	),
+	compra-certa: (
+		cor-loja   : $compra-certa-color,
+		cor-titulo : $compra-certa-color-title
+	),
+	direto-na-loja: (
+		cor-loja   : $direto-na-loja-color,
+		cor-titulo : $direto-na-loja-color-title
+	)
+);
+
+@each $loja, $cor in $lojas {
+	$cor-loja: map-get($cor, cor-loja);
+	$cor-titulo: map-get($cor, cor-titulo);
+
+	body[class*='#{$loja}'] {
+		background-color: $cor-loja;
+		.page-title { color: $cor-titulo; }
+
+		button,
+		input[type='submit'],
+		input[type='reset'] {
+			background-color: $cor-loja;
+			border: 2px solid $cor-loja;
+			color: $cor-titulo;
+
+			&:hover {
+				background-color: $cor-titulo;
+				border: 2px solid $cor-loja;
+				color: $cor-loja;
+			}
+		}
+	}
 }
 
+// Consul
 body[class*='consul'] {
-	background-color: $consul-color;
-	.page-title { color: $consul-color-title; }
+	input,
+	select,
+	button {
+		border-radius: 20px;
+	}
 }
-
-body[class*='compra'] {
-	background-color: $compra-certa-color;
-	.page-title { color: $compra-certa-color-title; }
-}
-
-body[class*='direto'] {
-	background-color: $direto-na-loja-color;
-	.page-title { color: $direto-na-loja-color-title; }
-}
-
 
 // Page
 .page-title {
@@ -101,6 +132,13 @@ body[class*='direto'] {
 }
 
 // URL's
+.urls-header {
+	left: 0;
+	position: absolute;
+	top: 0;
+	width: 100%;
+}
+
 .url-container {
 	background-color: #eee;
 	margin-top: 5px;
@@ -110,8 +148,6 @@ body[class*='direto'] {
 .url-title {
 	margin: 0;
 	padding: calc(1em - 2px);
-	position: absolute;
-	top: 0;
 	font-weight: normal;
 }
 
@@ -123,17 +159,34 @@ body[class*='direto'] {
 	word-break: break-all;
 	list-style: none;
 
-	li {
-		border-top: 1px solid #ccc;
-		padding: 10px 0;
-	}
-
 	&:empty {
 		&,
-		& + .url-title {
-			display: none;
-		}
+		& + .urls-header { display: none; }
 	}
+}
+
+.url-list__item {
+	border-top: 1px solid #ccc;
+	padding: 10px 0;
+	position: relative;
+	padding-right: 80px;
+	z-index: 2;
+
+	.copy {
+		font-size: 10px;
+		padding: .5em 1em;
+		right: 0;
+	}
+}
+
+// Copy buttons
+.copy {
+	position: absolute;
+	top: 50%;
+	right: 1.5em;
+	transform: translateY(-50%);
+
+	.copied { display: none; }
 }
 
 .url-form {
@@ -215,6 +268,8 @@ input[type='text'] {
 	vertical-align: top;
 	width: 80%;
 
+	&:focus { outline: none; }
+
 	.flex & { width: 100%; }
 
 	&.error { border-color: #d00; }
@@ -236,6 +291,7 @@ textarea {
 
 input[type='submit'] { margin-left: 1em; }
 
+button,
 input[type='submit'],
 input[type='reset'] {
 	@media (max-width: 450px) {
@@ -247,6 +303,12 @@ input[type='reset'] {
 	outline: none;
 	padding: 1em 22px;
 	text-transform: uppercase;
+	transition:
+		background-color .2s ease,
+		border-radius .2s ease
+	;
+
+	&:focus { outline: none; }
 }
 
 .campos-cc {
