@@ -7,6 +7,7 @@
 	const $url   = document.querySelector('.url-list');
 	const $reset = document.querySelector('input[type="reset"]');
 	const $store = document.querySelector('.text-loja');
+	const $copyAll = document.querySelector('.copy-all');
 	let urlLoja,
 		paramLogin,
 		paramSource,
@@ -26,11 +27,16 @@
 		console.log('App started and running...');
 
 		// ######## Fake data ########
-		$form.loja.value = 'Brastemp';
-		$form.produto.value = '/geladeira/p, /fogao/p, 102030';
-		$form.utmSource.value = '#SOURCE#';
-		$form.utmMedium.value = '#MEDIUM#';
+		$form.loja.value        = 'Brastemp';
+		$form.produto.value     = '/geladeira/p, /fogao/p, 102030';
+		$form.utmSource.value   = '#SOURCE#';
+		$form.utmMedium.value   = '#MEDIUM#';
 		$form.utmCampaign.value = '#CAMPAIGN#';
+		$form.login.value       = '#LOGIN#';
+		$form.utmiPc.value      = '#UTMIPC#';
+		$form.utmiCp.value      = '#UTMICP#';
+		$form.utmContent.value  = '#UTMCONTENT#';
+		$form.utmTerm.value     = '#UTMTERM#';
 		// ######## Fake data ########
 
 
@@ -40,13 +46,10 @@
 		// Assiste alterações na seleção da loja
 		$form.loja.addEventListener('change', function() {
 			let text = this.value;
+
 			app.changeTitle(text);
 
-			text = text.toLocaleLowerCase();
-			text = text.replace(/-/gm, '');
-			text = text.replace(/\s+/gm, '-');
-
-			$body.setAttribute('class', `${text}`);
+			$body.setAttribute('class', `${app.textToCssClass(text)}`);
 
 			// Atualiza as URL's geradas
 			app.updateAll();
@@ -59,6 +62,22 @@
 			// Atualiza a URL final
 			app.updateAll();
 		});
+
+		// Copia todas as URL's
+		$copyAll.addEventListener('click', function() {
+			this.classList.add('is--active');
+			setTimeout(() => (this.classList.remove('is--active')), 1000);
+		});
+	};
+
+	// Transform a text in a css class
+	app.textToCssClass = (textToChange) => {
+		let text = textToChange;
+		text = text.toLocaleLowerCase();
+		text = text.replace(/-/gm, '');
+		text = text.replace(/\s+/gm, '-');
+
+		return text;
 	};
 
 	// Muda o título da página com base na loja selecionada
@@ -139,13 +158,13 @@
 			${url}
 			<button class="copy copy-one">
 				Copiar
-				<span class="copied">Copiado!</span>
+				<span class="copied">Copiado</span>
 			</button>
 		`;
 
 		li.classList.add('url-list__item');
-
 		li.innerHTML = template;
+
 		$url.appendChild(li);
 	};
 

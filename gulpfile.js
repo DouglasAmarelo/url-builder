@@ -1,8 +1,9 @@
-var gulp    = require('gulp');
-var sass    = require('gulp-sass');
-var connect = require('gulp-connect');
-var babel   = require('gulp-babel');
-var browserSync   = require('browser-sync').create();
+// var connect     = require('gulp-connect');
+var gulp        = require('gulp');
+var sass        = require('gulp-sass');
+var babel       = require('gulp-babel');
+var browserSync = require('browser-sync').create();
+var uglify      = require('gulp-uglify');
 
 gulp.task('browserSync', function() {
 	browserSync.init({
@@ -21,6 +22,7 @@ gulp.task('html', function () {
 gulp.task('script', function () {
 	gulp.src('src/scripts/*.js')
 		.pipe(babel())
+		.pipe(uglify())
 		.pipe(gulp.dest('./dist/js'));
 });
 

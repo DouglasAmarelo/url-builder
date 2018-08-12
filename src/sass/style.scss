@@ -140,7 +140,7 @@ body[class*='consul'] {
 }
 
 .url-container {
-	background-color: #eee;
+	background-color: #ededed;
 	margin-top: 5px;
 	position: relative;
 }
@@ -167,14 +167,14 @@ body[class*='consul'] {
 
 .url-list__item {
 	border-top: 1px solid #ccc;
-	padding: 10px 0;
+	padding: 12px 0;
 	position: relative;
-	padding-right: 80px;
+	padding-right: 90px;
 	z-index: 2;
 
 	.copy {
 		font-size: 10px;
-		padding: .5em 1em;
+		padding: .7em 1.5em;
 		right: 0;
 	}
 }
@@ -185,8 +185,46 @@ body[class*='consul'] {
 	top: 50%;
 	right: 1.5em;
 	transform: translateY(-50%);
+}
 
-	.copied { display: none; }
+.copied {
+	background-color: #000;
+	color: #fff;
+	display: inline-block;
+	font-family: Verdana;
+	font-size: 9px;
+	left: 50%;
+	opacity: 0;
+	padding: 2px 5px;
+	position: absolute;
+	text-align: center;
+	top: 0;
+	transform: translate(-50%, 0);
+	transition:
+		transform .2s ease,
+		opacity .2s ease
+	;
+	white-space: nowrap;
+	z-index: -5;
+
+	&:before {
+		border: 5px solid transparent;
+		border-color: #000 transparent transparent transparent;
+		content: '';
+		display: block;
+		height: 0;
+		left: 50%;
+		position: absolute;
+		top: 90%;
+		transform: translateX(-50%);
+		width: 0;
+	}
+
+	// Active state
+	.is--active & {
+		opacity: 1;
+		transform: translate(-50%, -22px);
+	}
 }
 
 .url-form {
@@ -286,6 +324,15 @@ textarea {
 	resize: vertical;
 }
 
+button,
+select,
+input {
+	transition:
+		background-color .3s ease,
+		border-radius .3s ease
+	;
+}
+
 // Action buttons
 .action-buttons { padding-top: 20px; }
 
@@ -298,15 +345,15 @@ input[type='reset'] {
 		margin: 0 0 1em 0;
 		width: 100%;
 	}
+	border: 2px solid #d1d1d1;
+	background-color: #d1d1d1;
 	display: inline-block;
 	font-size: 11px;
 	outline: none;
 	padding: 1em 22px;
 	text-transform: uppercase;
-	transition:
-		background-color .2s ease,
-		border-radius .2s ease
-	;
+
+	&:hover { background-color: #fff; }
 
 	&:focus { outline: none; }
 }
