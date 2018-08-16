@@ -177,6 +177,11 @@ body[class*='consul'] {
 		padding: .7em 1.5em;
 		right: 0;
 	}
+
+	.url + .copied {
+		left: 25px;
+		top: 10px;
+	}
 }
 
 // Copy buttons
@@ -185,6 +190,19 @@ body[class*='consul'] {
 	top: 50%;
 	right: 1.5em;
 	transform: translateY(-50%);
+
+	.copy-text {
+		&:before {
+			content: '';
+			display: block;
+			height: 100%;
+			position: absolute;
+			right: 0;
+			top: 0;
+			width: 100%;
+			z-index: -1;
+		}
+	}
 }
 
 .copied {
@@ -198,6 +216,7 @@ body[class*='consul'] {
 	padding: 2px 5px;
 	position: absolute;
 	text-align: center;
+	text-transform: none;
 	top: 0;
 	transform: translate(-50%, 0);
 	transition:
@@ -221,7 +240,8 @@ body[class*='consul'] {
 	}
 
 	// Active state
-	.is--active & {
+	.is--active &,
+	.is--active + & {
 		opacity: 1;
 		transform: translate(-50%, -22px);
 	}
