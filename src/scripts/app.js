@@ -27,19 +27,18 @@
 	app.init = () => {
 		console.log('App started and running...');
 
-		// ######## Fake data ########
+		// ######## Initial data ########
 		// $form.loja.value        = 'Brastemp';
-		// $form.produto.value     = '/geladeira/p, /fogao/p, 102030';
-		// $form.utmSource.value   = '#SOURCE#';
-		// $form.utmMedium.value   = '#MEDIUM#';
-		// $form.utmCampaign.value = '#CAMPAIGN#';
-		// $form.login.value       = '#LOGIN#';
-		// $form.utmiPc.value      = '#UTMIPC#';
-		// $form.utmiCp.value      = '#UTMICP#';
+		// $form.produto.value     = '/eletrodomesticos/geladeira---refrigerador, /geladeira-brastemp-inverse-maxi-573-litros-bre80ak/p, /combos, 707';
+		$form.utmSource.value   = 'whirlpool';
+		$form.utmMedium.value   = 'email_blast';
+		$form.utmCampaign.value = '%%emailname_%%';
+		$form.login.value       = '%%=Base64Encode(emailaddr)=%%';
+		$form.utmiPc.value      = 'email_blast';
+		$form.utmiCp.value      = 'whp_emkt';
 		// $form.utmContent.value  = '#UTMCONTENT#';
 		// $form.utmTerm.value     = '#UTMTERM#';
-		// ######## Fake data ########
-
+		// ######## Initial data ########
 
 		// Reinicia a aplicação
 		$reset.addEventListener('click', app.resetForm);
@@ -49,6 +48,7 @@
 			let text = this.value;
 			$body.setAttribute('class', `${ app.textToCssClass(text) }`);
 			app.changeTitle(text);
+			app.updateAll();
 		});
 
 		// Submit do formulário
@@ -75,10 +75,6 @@
 				itemToCopy = itemToCopy.querySelector('.url').textContent;
 
 				app.copyToClipboard(self, itemToCopy);
-			}
-
-			if (e.target.classList[0] === 'url') {
-				console.log('********');
 			}
 		});
 	};
@@ -144,7 +140,7 @@
 		products = products.replace(/\s+/gmi, '').split(',');
 
 		products.map(product => {
-			isColection = !!!product.match(/\/\S+\/p/gmi);
+			isColection = !!!product.match(/\/\S+(?:\/p)?/gmi);
 
 			app.generateUrl(store, product, isColection);
 		});
@@ -183,6 +179,7 @@
 		urlCleared = urlCleared.toLocaleLowerCase();
 		urlCleared = urlCleared.replace(/\w+=&/gmi, '');
 		urlCleared = urlCleared.replace(/&$/gmi, '');
+		urlCleared = urlCleared.replace(/fq=h/gmi, 'fq=H');
 		urlCleared = urlCleared.replace(/returnurl/gmi, 'ReturnUrl');
 
 		return urlCleared;
