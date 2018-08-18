@@ -20,25 +20,15 @@
 		paramContent,
 		paramTerm;
 
+
 	// Objeto que comporta todas as funções da aplicação
-	let app = {};
+	const app = {};
 
 	// Função que inicia a aplicação
 	app.init = () => {
-		console.log('App started and running...');
 
-		// ######## Initial data ########
-		// $form.loja.value        = 'Brastemp';
-		// $form.produto.value     = '/eletrodomesticos/geladeira---refrigerador, /geladeira-brastemp-inverse-maxi-573-litros-bre80ak/p, /combos, 707';
-		$form.utmSource.value   = 'whirlpool';
-		$form.utmMedium.value   = 'email_blast';
-		$form.utmCampaign.value = '%%emailname_%%';
-		$form.login.value       = '%%=Base64Encode(emailaddr)=%%';
-		$form.utmiPc.value      = 'email_blast';
-		$form.utmiCp.value      = 'whp_emkt';
-		// $form.utmContent.value  = '#UTMCONTENT#';
-		// $form.utmTerm.value     = '#UTMTERM#';
-		// ######## Initial data ########
+		// Inicia a aplicação com dados pré-configurados
+		app.initialData();
 
 		// Reinicia a aplicação
 		$reset.addEventListener('click', app.resetForm);
@@ -46,9 +36,12 @@
 		// Assiste alterações na seleção da loja
 		$form.loja.addEventListener('change', function() {
 			let text = this.value;
-			$body.setAttribute('class', `${ app.textToCssClass(text) }`);
+			$body.setAttribute('class', `${app.textToCssClass(text)}`);
 			app.changeTitle(text);
-			app.updateAll();
+
+			if ($form.produto.value !== '') {
+				app.updateAll();
+			}
 		});
 
 		// Submit do formulário
@@ -67,7 +60,7 @@
 		});
 
 		// Copia cada URL
-		$urlList.addEventListener('click', (e) => {
+		$urlList.addEventListener('click', function(e) {
 			let self = e.target;
 
 			if (e.target.classList[0] === 'copy-text' || e.target.classList[0] === 'url') {
@@ -77,6 +70,20 @@
 				app.copyToClipboard(self, itemToCopy);
 			}
 		});
+	};
+
+	// Dados iniciais "padrões" para todas as campanhas
+	app.initialData = () => {
+		// $form.loja.value        = 'Brastemp';
+		// $form.produto.value     = '/eletrodomesticos/geladeira---refrigerador, /geladeira-brastemp-inverse-maxi-573-litros-bre80ak/p, /combos, 707';
+		$form.utmSource.value   = 'whirlpool';
+		$form.utmMedium.value   = 'email_blast';
+		$form.utmCampaign.value = '%%emailname_%%';
+		$form.login.value       = '%%=Base64Encode(emailaddr)=%%';
+		$form.utmiPc.value      = 'email_blast';
+		$form.utmiCp.value      = 'whp_emkt';
+		// $form.utmContent.value  = '#UTMCONTENT#';
+		// $form.utmTerm.value     = '#UTMTERM#';
 	};
 
 	// Atualiza o valor das variáveis com o valor dos campos
@@ -137,6 +144,8 @@
 		let store    = $form.loja.value;
 		let isColection;
 
+		app.updateVariables();
+
 		products = products.replace(/\s+/gmi, '').split(',');
 
 		products.map(product => {
@@ -148,8 +157,6 @@
 
 	// Define o template com base na loja escolhida
 	app.generateUrl = (store, product, isColection) => {
-		app.updateVariables();
-
 		let urlType = isColection ? '/busca/?fq=H:' : '';
 		let paramColecao = isColection ? '&' : '?';
 		let paramProduct = urlType + product;
@@ -185,19 +192,32 @@
 		return urlCleared;
 	};
 
-	// Exibe as URLs na tela
-	app.printUrls = (url) => {
-		let li = document.createElement('li');
+	// Template dos itens da lista
+	app.listItem = (url) => {
 		let template = `
 			<span class="url">${url}</span>
 			<span class="copied">Copiado</span>
 			<button class="copy copy-one">
+				<svg class="copy-icon" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 488.3 488.3" style="enable-background:new 0 0 488.3 488.3;" xml:space="preserve">
+					<g>
+						<path d="M314.25,85.4h-227c-21.3,0-38.6,17.3-38.6,38.6v325.7c0,21.3,17.3,38.6,38.6,38.6h227c21.3,0,38.6-17.3,38.6-38.6V124 C352.75,102.7,335.45,85.4,314.25,85.4z M325.75,449.6c0,6.4-5.2,11.6-11.6,11.6h-227c-6.4,0-11.6-5.2-11.6-11.6V124 c0-6.4,5.2-11.6,11.6-11.6h227c6.4,0,11.6,5.2,11.6,11.6V449.6z"/>
+						<path d="M401.05,0h-227c-21.3,0-38.6,17.3-38.6,38.6c0,7.5,6,13.5,13.5,13.5s13.5-6,13.5-13.5c0-6.4,5.2-11.6,11.6-11.6h227 c6.4,0,11.6,5.2,11.6,11.6v325.7c0,6.4-5.2,11.6-11.6,11.6c-7.5,0-13.5,6-13.5,13.5s6,13.5,13.5,13.5c21.3,0,38.6-17.3,38.6-38.6 V38.6C439.65,17.3,422.35,0,401.05,0z"/>
+					</g>
+				</svg>
 				<span class="copy-text">
 					Copiar
 					<span class="copied">Copiado</span>
 				</span>
 			</button>
 		`;
+
+		return template;
+	};
+
+	// Exibe as URLs na tela
+	app.printUrls = (url) => {
+		let template = app.listItem(url);
+		let li = document.createElement('li');
 
 		li.classList.add('url-list__item');
 		li.innerHTML = template;

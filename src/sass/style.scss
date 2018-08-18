@@ -79,6 +79,8 @@ $lojas: (
 		background-color: $cor-loja;
 		.page-title { color: $cor-titulo; }
 
+		.copy-icon { fill: $cor-titulo; }
+
 		button,
 		input[type='submit'],
 		input[type='reset'] {
@@ -86,10 +88,13 @@ $lojas: (
 			border: 2px solid $cor-loja;
 			color: $cor-titulo;
 
+
 			&:hover {
 				background-color: $cor-titulo;
 				border: 2px solid $cor-loja;
 				color: $cor-loja;
+
+				.copy-icon { fill: $cor-loja; }
 			}
 		}
 	}
@@ -180,13 +185,23 @@ body[class*='consul'] {
 	border-top: 1px solid #ccc;
 	padding: 12px 0;
 	position: relative;
-	padding-right: 90px;
+	padding-right: 95px;
 	z-index: 2;
 
 	.copy {
 		font-size: 10px;
-		padding: .7em 1.5em;
+		// padding: .8em .8em .8em 2.8em;
+		padding: .8em 2.8em .8em .8em;
 		right: 0;
+	}
+
+	.copy-icon {
+		display: inline-block;
+		position: absolute;
+		right: 6px;
+		top: 6px;
+		height: 16px;
+		width: 16px;
 	}
 
 	.url + .copied {
