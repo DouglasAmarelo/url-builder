@@ -4,7 +4,6 @@
 	// Variables
 	const $form    = document.querySelector('.url-form');
 	const $body    = document.querySelector('body');
-	const $url     = document.querySelector('.url-list');
 	const $reset   = document.querySelector('input[type="reset"]');
 	const $store   = document.querySelector('.text-loja');
 	const $copyAll = document.querySelector('.copy-all');
@@ -36,15 +35,30 @@
 		// Assiste alterações na seleção da loja
 		$form.loja.addEventListener('change', function() {
 			let text = this.value;
-			$body.setAttribute('class', `${app.textToCssClass(text)}`);
+
+			app.changeBodyClass(text);
 			app.changeTitle(text);
+
+			if ($form.loja.value.includes('Compra Certa')) {
+				$form.login.removeAttribute('disabled');
+			}
+			else {
+				$form.login.setAttribute('disabled', true);
+			}
 
 			if ($form.produto.value !== '') {
 				app.updateAll();
 			}
 		});
 
-		// Submit do formulário
+		// Atualiza a lista de URL's criadas, com o link da home
+		$form.linkHome.addEventListener('change', () => {
+			if ($form.produto.value !== '') {
+				app.updateAll();
+			}
+		});
+
+		// Enviar o formulário e gerar as URL's
 		$form.addEventListener('submit', (e) => {
 			e.preventDefault();
 			app.updateAll();
@@ -52,7 +66,7 @@
 
 		// Copia todas as URL's
 		$copyAll.addEventListener('click', function() {
-			let itensToCopy = [...document.querySelectorAll('.url-list .url-list__item .url')]
+			let itensToCopy = [...$urlList.querySelectorAll('.url')]
 			itensToCopy = itensToCopy.map(item => item.textContent);
 			itensToCopy = itensToCopy.join('\n\n');
 
@@ -63,25 +77,26 @@
 		$urlList.addEventListener('click', function(e) {
 			let self = e.target;
 
-			if (e.target.classList[0] === 'copy-text' || e.target.classList[0] === 'url') {
+			if (e.target.classList[0] === 'copy-text') {
 				let itemToCopy = e.target.closest('.url-list__item');
-				itemToCopy = itemToCopy.querySelector('.url').textContent;
+				let textToCopy = itemToCopy.querySelector('.url').textContent;
 
-				app.copyToClipboard(self, itemToCopy);
+				app.copyToClipboard(self, textToCopy);
 			}
 		});
 	};
 
 	// Dados iniciais "padrões" para todas as campanhas
 	app.initialData = () => {
-		// $form.loja.value        = 'Brastemp';
-		// $form.produto.value     = '/eletrodomesticos/geladeira---refrigerador, /geladeira-brastemp-inverse-maxi-573-litros-bre80ak/p, /combos, 707';
 		$form.utmSource.value   = 'whirlpool';
 		$form.utmMedium.value   = 'email_blast';
 		$form.utmCampaign.value = '%%emailname_%%';
 		$form.login.value       = '%%=Base64Encode(emailaddr)=%%';
 		$form.utmiPc.value      = 'email_blast';
 		$form.utmiCp.value      = 'whp_emkt';
+
+		$form.loja.value        = 'Brastemp';
+		$form.produto.value     = '/eletrodomesticos/geladeira---refrigerador, /geladeira-brastemp-inverse-maxi-573-litros-bre80ak/p, /combos, 707';
 		// $form.utmContent.value  = '#UTMCONTENT#';
 		// $form.utmTerm.value     = '#UTMTERM#';
 	};
@@ -133,10 +148,16 @@
 		return text;
 	};
 
+	// Muda a class css do body
+	app.changeBodyClass = (cssClassName) => {
+		$body.setAttribute('class', `${app.textToCssClass(cssClassName)}`);
+	};
+
 	// Muda o título da página com base na loja selecionada
 	app.changeTitle = (title) => {
 		$store.textContent = title !== 'Selecione a loja' ? title : '';
 	};
+
 
 	// Pega os produtos cadastrados e passa para o gerador de URL
 	app.getProducts = () => {
@@ -146,8 +167,12 @@
 
 		app.updateVariables();
 
-		products = products.replace(/\s+/gmi, '').split(',');
+		// Gerar o link para a home, também
+		if ($form.linkHome.checked === true) {
+			app.generateUrl(store, '', false);
+		}
 
+		products = app.clearProducts(products);
 		products.map(product => {
 			isColection = !!!product.match(/\/\S+(?:\/p)?/gmi);
 
@@ -163,23 +188,34 @@
 		let completeUrl;
 
 		if (store.includes('Corp')) {
-			completeUrl = `${urlLoja}${paramProduct}${paramColecao}utmi_pc=${paramPc}&utmi_cp=${paramCp}&login=${paramLogin}&ReturnUrl=${paramProduct}${paramColecao}utm_source=${paramSource}&utm_medium=${paramMedium}&utm_campaign=${paramCampaign}&email=${paramEmail}&utm_content=${paramContent}&utm_term=${paramTerm}&`;
+			completeUrl = `${urlLoja}${paramProduct}${paramColecao}utmi_cp=${paramCp}&utmi_pc=${paramPc}&login=${paramLogin}&ReturnUrl=${paramProduct}${paramColecao}utm_source=${paramSource}&utm_medium=${paramMedium}&utm_campaign=${paramCampaign}&email=${paramEmail}&utm_content=${paramContent}&utm_term=${paramTerm}&`;
 		}
 		else if (store.includes('Colab')) {
-			completeUrl = `${urlLoja}/sistema/401?&email=${paramEmail}&ReturnUrl=${paramProduct}${paramColecao}utmi_pc=${paramPc}&utmi_cp=${paramCp}&utm_source=${paramSource}&utm_medium=${paramMedium}&utm_campaign=${paramCampaign}&utm_content=${paramContent}&utm_term=${paramTerm}&`;
+			completeUrl = `${urlLoja}/sistema/401?&email=${paramEmail}&ReturnUrl=${paramProduct}${paramColecao}utmi_cp=${paramCp}&utmi_pc=${paramPc}&utm_source=${paramSource}&utm_medium=${paramMedium}&utm_campaign=${paramCampaign}&utm_content=${paramContent}&utm_term=${paramTerm}&`;
 		}
 		else {
-			completeUrl = `${urlLoja}${paramProduct}${paramColecao}utm_source=${paramSource}&utm_medium=${paramMedium}&utm_campaign=${paramCampaign}&utmi_pc=${paramPc}&utmi_cp=${paramCp}&utm_content=${paramContent}&utm_term=${paramTerm}&`;
+			completeUrl = `${urlLoja}${paramProduct}${paramColecao}utm_source=${paramSource}&utm_medium=${paramMedium}&utm_campaign=${paramCampaign}&utmi_cp=${paramCp}&utmi_pc=${paramPc}&utm_content=${paramContent}&utm_term=${paramTerm}&`;
 		}
 
-		// Função que limpa os itens não preenchidos da URL
+		// Limpa da URL, os parâmetros que não foram preenchidos
 		completeUrl = app.clearUrl(completeUrl);
 
-		// Função que exibe a URL na tela
+		// Exibe a URL final na tela
 		app.printUrls(completeUrl);
 	};
 
-	// Remove itens que não foram preenchidos da URL final
+	// Limpa o array de produtos, retornando apenas links válidos
+	app.clearProducts = (arrToClear) => {
+		let arr = arrToClear
+		arr = arr.replace(/\s+/gmi, '');
+		arr = arr.replace(/,+/gmi, ',');
+		arr = arr.split(',');
+		arr = arr.filter(Boolean);
+
+		return arr;
+	};
+
+	// Remove da URL final, os parâmetros que não foram preenchidos
 	app.clearUrl = (url) => {
 		let urlCleared = url;
 		urlCleared = urlCleared.trim();
@@ -193,10 +229,10 @@
 	};
 
 	// Template dos itens da lista
-	app.listItem = (url) => {
+	app.listItemTemplate = (url) => {
 		let template = `
 			<span class="url">${url}</span>
-			<span class="copied">Copiado</span>
+
 			<button class="copy copy-one">
 				<svg class="copy-icon" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 488.3 488.3" style="enable-background:new 0 0 488.3 488.3;" xml:space="preserve">
 					<g>
@@ -216,24 +252,24 @@
 
 	// Exibe as URLs na tela
 	app.printUrls = (url) => {
-		let template = app.listItem(url);
 		let li = document.createElement('li');
+		let template = app.listItemTemplate(url);
 
 		li.classList.add('url-list__item');
 		li.innerHTML = template;
 
-		$url.appendChild(li);
+		$urlList.appendChild(li);
 	};
 
 	// Limpa todos os campos e volta a aplicação ao estado inicial
 	app.resetForm = () => {
 		app.clearUrlContainer();
-		$body.removeAttribute('class');
 		app.changeTitle('');
+		$body.removeAttribute('class');
 	};
 
 	// Clear the container with all URL's
-	app.clearUrlContainer = () => $url.innerHTML = '';
+	app.clearUrlContainer = () => $urlList.innerHTML = '';
 
 	// Atualiza o formulário e chama a função de gerar URL's
 	app.updateAll = () => {

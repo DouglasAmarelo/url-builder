@@ -23,6 +23,7 @@ body {
 	background-color: #f3f3f3;
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 	margin: 0;
+	overflow-y: scroll;
 	padding: 0;
 	transition: background-color .5s ease;
 	word-break: keep-all;
@@ -42,32 +43,32 @@ body {
 .between { justify-content: space-between;}
 
 // Cores
-$brastemp-color             : #f35216;
-$brastemp-color-title       : #ffffff;
-$consul-color               : #9aca3c;
-$consul-color-title         : #ffffff;
-$compra-certa-color         : #592b6d;
-$compra-certa-color-title   : #ffffff;
-$direto-na-loja-color       : #3b3b3a;
-$direto-na-loja-color-title : #ffcb0b;
+$btp-color       : #f35216;
+$btp-color-title : #ffffff;
+$cns-color       : #9aca3c;
+$cns-color-title : #ffffff;
+$cc-color        : #592b6d;
+$cc-color-title  : #ffffff;
+$dnl-color       : #3b3b3a;
+$dnl-color-title : #ffcb0b;
 
 // Temas
 $lojas: (
 	brastemp: (
-		cor-loja   : $brastemp-color,
-		cor-titulo : $brastemp-color-title
+		cor-loja   : $btp-color,
+		cor-titulo : $btp-color-title
 	),
 	consul: (
-		cor-loja   : $consul-color,
-		cor-titulo : $consul-color-title
+		cor-loja   : $cns-color,
+		cor-titulo : $cns-color-title
 	),
 	compra-certa: (
-		cor-loja   : $compra-certa-color,
-		cor-titulo : $compra-certa-color-title
+		cor-loja   : $cc-color,
+		cor-titulo : $cc-color-title
 	),
 	direto-na-loja: (
-		cor-loja   : $direto-na-loja-color,
-		cor-titulo : $direto-na-loja-color-title
+		cor-loja   : $dnl-color,
+		cor-titulo : $dnl-color-title
 	)
 );
 
@@ -88,7 +89,6 @@ $lojas: (
 			border: 2px solid $cor-loja;
 			color: $cor-titulo;
 
-
 			&:hover {
 				background-color: $cor-titulo;
 				border: 2px solid $cor-loja;
@@ -97,19 +97,35 @@ $lojas: (
 				.copy-icon { fill: $cor-loja; }
 			}
 		}
+
+		// Adicionar bordas redondas somente em Consul
+		@if $loja == 'consul' {
+			input,
+			select,
+			button { border-radius: 20px; }
+		}
 	}
 }
 
-// Consul
-body[class*='consul'] {
-	input,
-	select,
-	button {
-		border-radius: 20px;
-	}
+// Container
+.container-wrap {
+	// border: 1px solid #333;
+	display: flex;
+	justify-content: center;
+	min-height: 100vh;
 }
 
-// Page
+.container {
+	// border: 1px solid #d0d;
+	display: block;
+	max-width: 900px;
+	margin: 0 auto;
+	padding-bottom: 40px;
+	width: 90%;
+	word-break: break-all;
+}
+
+// Page title
 .page-title {
 	display: inline-block;
 	font-weight: normal;
@@ -133,146 +149,7 @@ body[class*='consul'] {
 	}
 }
 
-.container-wrap {
-	display: flex;
-	justify-content: center;
-	min-height: 100vh;
-}
-
-.container {
-	display: block;
-	max-width: 900px;
-	padding-bottom: 40px;
-	width: 90%;
-	word-break: break-all;
-}
-
-// URL's
-.urls-header {
-	left: 0;
-	position: absolute;
-	top: 0;
-	width: 100%;
-}
-
-.url-container {
-	background-color: #ededed;
-	margin-top: 5px;
-	position: relative;
-}
-
-.url-title {
-	margin: 0;
-	padding: calc(1em - 2px);
-	font-weight: normal;
-}
-
-.url-list {
-	border: 2px solid #fff;
-	font-size: 13px;
-	margin: 0;
-	padding: 6em 1.5em 1.5em 1.5em;
-	word-break: break-all;
-	list-style: none;
-
-	&:empty {
-		&,
-		& + .urls-header { display: none; }
-	}
-}
-
-.url-list__item {
-	border-top: 1px solid #ccc;
-	padding: 12px 0;
-	position: relative;
-	padding-right: 95px;
-	z-index: 2;
-
-	.copy {
-		font-size: 10px;
-		// padding: .8em .8em .8em 2.8em;
-		padding: .8em 2.8em .8em .8em;
-		right: 0;
-	}
-
-	.copy-icon {
-		display: inline-block;
-		position: absolute;
-		right: 6px;
-		top: 6px;
-		height: 16px;
-		width: 16px;
-	}
-
-	.url + .copied {
-		left: 25px;
-		top: 10px;
-	}
-}
-
-// Copy buttons
-.copy {
-	position: absolute;
-	top: 50%;
-	right: 1.5em;
-	transform: translateY(-50%);
-
-	.copy-text {
-		&:before {
-			content: '';
-			display: block;
-			height: 100%;
-			position: absolute;
-			right: 0;
-			top: 0;
-			width: 100%;
-			z-index: -1;
-		}
-	}
-}
-
-.copied {
-	background-color: #000;
-	color: #fff;
-	display: inline-block;
-	font-family: Verdana;
-	font-size: 9px;
-	left: 50%;
-	opacity: 0;
-	padding: 2px 5px;
-	position: absolute;
-	text-align: center;
-	text-transform: none;
-	top: 0;
-	transform: translate(-50%, 0);
-	transition:
-		transform .2s ease,
-		opacity .2s ease
-	;
-	white-space: nowrap;
-	z-index: -5;
-
-	&:before {
-		border: 5px solid transparent;
-		border-color: #000 transparent transparent transparent;
-		content: '';
-		display: block;
-		height: 0;
-		left: 50%;
-		position: absolute;
-		top: 90%;
-		transform: translateX(-50%);
-		width: 0;
-	}
-
-	// Active state
-	.is--active &,
-	.is--active + & {
-		opacity: 1;
-		transform: translate(-50%, -22px);
-	}
-}
-
+// Form
 .url-form {
 	background-color: #fff;
 	border: 1px solid #ccc;
@@ -304,13 +181,20 @@ body[class*='consul'] {
 	display: inline-block;
 	font-size: 11px;
 	padding-bottom: 5px;
-	text-transform: uppercase;
 	text-shadow: 0 0 0 #000;
+	text-transform: uppercase;
+	vertical-align: top;
 	width: 20%;
 
+	&.label-checkbox {
+		padding: 0 20px;
+		position: relative;
+		width: 21%;
+	}
+
 	span {
-		display: block;
 		color: #777;
+		display: block;
 		text-transform: none;
 	}
 
@@ -322,6 +206,7 @@ body[class*='consul'] {
 
 	.mobile-inline {
 		display: inline-block;
+
 		&:first-child { margin-right: 1em; }
 	}
 }
@@ -364,6 +249,16 @@ select {
 	width: 30%;
 }
 
+input[type='checkbox'] {
+	display: block;
+	height: 15px;
+	margin: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 15px;
+}
+
 textarea {
 	@media (max-width: 765px) { width: 100%; }
 	min-height: 120px;
@@ -391,8 +286,8 @@ input[type='reset'] {
 		margin: 0 0 1em 0;
 		width: 100%;
 	}
-	border: 2px solid #d1d1d1;
 	background-color: #d1d1d1;
+	border: 2px solid #d1d1d1;
 	display: inline-block;
 	font-size: 11px;
 	outline: none;
@@ -404,23 +299,128 @@ input[type='reset'] {
 	&:focus { outline: none; }
 }
 
-.campos-cc {
-	max-height: 0;
-	opacity: 0;
-	position: relative;
-	transition:
-		max-height .4s ease,
-		opacity .6s ease
-	;
-	z-index: -10;
 
-	// Esconde campos de Compra Certa
-	[class*='compra'] & {
-		& {
-			@media (min-width: 580px) { max-height: 100px; }
-			@media (max-width: 580px) { max-height: 300px; }
-			opacity: 1;
-			z-index: 1;
-		}
+
+// URL's
+.urls-header {
+	left: 0;
+	position: absolute;
+	top: 0;
+	width: 100%;
+}
+
+.url-container {
+	background-color: #ededed;
+	margin-top: 5px;
+	position: relative;
+}
+
+.url-title {
+	font-weight: normal;
+	margin: 0;
+	padding: calc(1em - 2px);
+}
+
+.url-list {
+	border: 2px solid #fff;
+	font-size: 13px;
+	list-style: none;
+	margin: 0;
+	padding: 6em 1.5em 1.5em 1.5em;
+	word-break: break-all;
+
+	&:empty {
+		&,
+		& + .urls-header { display: none; }
+	}
+}
+
+.url-list__item {
+	border-top: 1px solid #ccc;
+	padding: 12px 0;
+	padding-right: 95px;
+	position: relative;
+	z-index: 2;
+
+	// Copy button
+	.copy {
+		font-size: 10px;
+		padding: .8em .8em .8em 2.8em;
+		right: 0;
+	}
+
+	.copy-icon {
+		left: 6px;
+		position: absolute;
+		top: 6px;
+	}
+}
+
+// Copy button
+.copy {
+	position: absolute;
+	right: 1.5em;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.copy-text {
+	&:before {
+		content: '';
+		display: block;
+		height: 100%;
+		position: absolute;
+		right: 0;
+		top: 0;
+		width: 100%;
+		z-index: -1;
+	}
+}
+
+.copy-icon {
+	display: inline-block;
+	height: 16px;
+	width: 16px;
+}
+
+.copied {
+	background-color: #000;
+	color: #fff;
+	display: inline-block;
+	font-family: Verdana;
+	font-size: 9px;
+	left: 50%;
+	opacity: 0;
+	padding: 2px 5px;
+	position: absolute;
+	text-align: center;
+	text-transform: none;
+	top: 0;
+	transform: translate(-50%, 0);
+	transition:
+		transform .2s ease,
+		opacity .2s ease
+	;
+	white-space: nowrap;
+	z-index: -5;
+
+	&:before {
+		border: 5px solid transparent;
+		border-color: #000 transparent transparent transparent;
+		content: '';
+		display: block;
+		height: 0;
+		left: 50%;
+		position: absolute;
+		top: 90%;
+		transform: translateX(-50%);
+		width: 0;
+	}
+
+	// Active state
+	.is--active &,
+	.is--active + & {
+		opacity: 1;
+		transform: translate(-50%, -22px);
 	}
 }
