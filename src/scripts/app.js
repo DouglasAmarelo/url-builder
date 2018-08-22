@@ -95,8 +95,8 @@
 		$form.utmiPc.value      = 'email_blast';
 		$form.utmiCp.value      = 'whp_emkt';
 
-		$form.loja.value        = 'Brastemp';
-		$form.produto.value     = '/eletrodomesticos/geladeira---refrigerador, /geladeira-brastemp-inverse-maxi-573-litros-bre80ak/p, /combos, 707';
+		// $form.loja.value        = 'Brastemp';
+		// $form.produto.value     = '/eletrodomesticos/geladeira---refrigerador, /geladeira-brastemp-inverse-maxi-573-litros-bre80ak/p, /combos, 707';
 		// $form.utmContent.value  = '#UTMCONTENT#';
 		// $form.utmTerm.value     = '#UTMTERM#';
 	};
