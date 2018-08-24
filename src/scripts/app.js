@@ -1,5 +1,12 @@
+import { firebaseInit } from "./firebase";
+
 (function() {
 	'use strict';
+
+	firebaseInit();
+
+
+
 
 	// Variables
 	const $form    = document.querySelector('.url-form');

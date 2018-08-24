@@ -1,9 +1,12 @@
-// var connect     = require('gulp-connect');
-var gulp        = require('gulp');
-var sass        = require('gulp-sass');
-var babel       = require('gulp-babel');
-var browserSync = require('browser-sync').create();
-var uglify      = require('gulp-uglify');
+const gulp          = require('gulp');
+const sass          = require('gulp-sass');
+const browserSync   = require('browser-sync').create();
+const webpack       = require('webpack');
+const webpackStream = require('webpack-stream');
+
+// const connect = require('gulp-connect');
+// const babel   = require('gulp-babel');
+// const uglify  = require('gulp-uglify');
 
 gulp.task('browserSync', function() {
 	browserSync.init({
@@ -25,9 +28,25 @@ gulp.task('image', function () {
 });
 
 gulp.task('script', function () {
-	gulp.src('src/scripts/*.js')
-		.pipe(babel())
-		.pipe(uglify())
+	gulp.src('src/scripts/*.js',)
+	.pipe(webpackStream({
+		mode: 'production',
+		output: { filename: 'app.js', },
+		module: {
+			rules: [{
+				test: /\.(js|jsx)$/,
+				exclude: /(node_modules)/,
+				loader: 'babel-loader',
+					query: {
+						presets: [
+							['latest', { modules: false }],
+						],
+					},
+				}],
+			}
+		}), webpack)
+		// .pipe(babel())
+		// .pipe(uglify())
 		.pipe(gulp.dest('./dist/js'));
 });
 
