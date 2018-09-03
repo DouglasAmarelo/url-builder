@@ -3,10 +3,8 @@ import { firebaseInit } from "./firebase";
 (function() {
 	'use strict';
 
+	// Firebase
 	firebaseInit();
-
-
-
 
 	// Variables
 	const $form    = document.querySelector('.url-form');
@@ -124,14 +122,14 @@ import { firebaseInit } from "./firebase";
 
 	// Copy to clipboard
 	app.copyToClipboard = (cta, copyFrom) => {
-		document.addEventListener('copy', (e) => {
+		document.addEventListener('copy', function(e) {
 			e.preventDefault();
 
 			if (e.clipboardData) {
 				e.clipboardData.setData("text/plain", copyFrom);
 				// console.log('###', e.clipboardData.getData('text'));
 			}
-		});
+		}, {once : true});
 
 		document.execCommand('copy');
 		app.copyFeedback(cta);
@@ -165,7 +163,6 @@ import { firebaseInit } from "./firebase";
 		$store.textContent = title !== 'Selecione a loja' ? title : '';
 	};
 
-
 	// Pega os produtos cadastrados e passa para o gerador de URL
 	app.getProducts = () => {
 		let products = $form.produto.value;
@@ -198,7 +195,8 @@ import { firebaseInit } from "./firebase";
 			completeUrl = `${urlLoja}${paramProduct}${paramColecao}utmi_cp=${paramCp}&utmi_pc=${paramPc}&login=${paramLogin}&ReturnUrl=${paramProduct}${paramColecao}utm_source=${paramSource}&utm_medium=${paramMedium}&utm_campaign=${paramCampaign}&email=${paramEmail}&utm_content=${paramContent}&utm_term=${paramTerm}&`;
 		}
 		else if (store.includes('Colab')) {
-			completeUrl = `${urlLoja}/sistema/401?&email=${paramEmail}&ReturnUrl=${paramProduct}${paramColecao}utmi_cp=${paramCp}&utmi_pc=${paramPc}&utm_source=${paramSource}&utm_medium=${paramMedium}&utm_campaign=${paramCampaign}&utm_content=${paramContent}&utm_term=${paramTerm}&`;
+			completeUrl = `${urlLoja}/sistema/401?ReturnUrl=${paramProduct}${paramColecao}utmi_cp=${paramCp}&utmi_pc=${paramPc}&utm_source=${paramSource}&utm_medium=${paramMedium}&utm_campaign=${paramCampaign}&utm_content=${paramContent}&utm_term=${paramTerm}&`;
+			// completeUrl = `${urlLoja}/sistema/401?email=${paramEmail}&ReturnUrl=${paramProduct}${paramColecao}utmi_cp=${paramCp}&utmi_pc=${paramPc}&utm_source=${paramSource}&utm_medium=${paramMedium}&utm_campaign=${paramCampaign}&utm_content=${paramContent}&utm_term=${paramTerm}&`;
 		}
 		else {
 			completeUrl = `${urlLoja}${paramProduct}${paramColecao}utm_source=${paramSource}&utm_medium=${paramMedium}&utm_campaign=${paramCampaign}&utmi_cp=${paramCp}&utmi_pc=${paramPc}&utm_content=${paramContent}&utm_term=${paramTerm}&`;
@@ -239,7 +237,6 @@ import { firebaseInit } from "./firebase";
 	app.listItemTemplate = (url) => {
 		let template = `
 			<span class="url">${url}</span>
-
 			<button class="copy copy-one">
 				<svg class="copy-icon" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 488.3 488.3" style="enable-background:new 0 0 488.3 488.3;" xml:space="preserve">
 					<g>
