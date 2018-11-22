@@ -71,5 +71,7 @@ gulp.task('watch', ['script', 'sass', 'html', 'image'], function() {
 
 gulp.task('default', ['browserSync', 'watch']);
 
+gulp.task('build', ['script', 'sass', 'html', 'image']);
+
 
 
