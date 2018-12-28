@@ -187,9 +187,14 @@ $lojas: (
 	width: 20%;
 
 	&.label-checkbox {
+		@media (max-width: 765px) {
+			text-align: right;
+			width: 50%;
+		}
 		padding: 0 20px;
 		position: relative;
 		width: 21%;
+		word-break: normal;
 	}
 
 	span {
@@ -245,7 +250,7 @@ input[type='text'] {
 }
 
 select {
-	@media (max-width: 765px) { width: 100%; }
+	@media (max-width: 765px) { width: 50%; }
 	width: 30%;
 }
 

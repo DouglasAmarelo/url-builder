@@ -1,18 +1,18 @@
-import { firebaseInit } from "./firebase";
+// import { firebaseInit } from "./firebase";
 
 (function() {
 	'use strict';
 
-	// Firebase
-	firebaseInit();
+	// // Firebase
+	// firebaseInit();
 
 	// Variables
-	const $form    = document.querySelector('.url-form');
 	const $body    = document.querySelector('body');
-	const $reset   = document.querySelector('input[type="reset"]');
-	const $store   = document.querySelector('.text-loja');
-	const $copyAll = document.querySelector('.copy-all');
-	const $urlList = document.querySelector('.url-list');
+	const $store   = $body.querySelector('.text-loja');
+	const $form    = $body.querySelector('.url-form');
+	const $copyAll = $body.querySelector('.copy-all');
+	const $urlList = $body.querySelector('.url-list');
+	const $reset   = $form.querySelector('input[type="reset"]');
 	let urlLoja,
 		paramLogin,
 		paramSource,
