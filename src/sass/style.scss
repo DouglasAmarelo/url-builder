@@ -9,103 +9,14 @@
 	=================================================
 */
 
-// Reset
-* { box-sizing: border-box; }
+@import 'components/themes';
+@import 'components/helpers';
 
-html,
-body {
-	height: 100%;
-	min-height: 100vh;
-	width: 100%;
-}
+@import 'config/resets';
+@import 'config/functions';
 
-body {
-	background-color: #f3f3f3;
-	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-	margin: 0;
-	overflow-y: scroll;
-	padding: 0;
-	transition: background-color .5s ease;
-	word-break: keep-all;
-}
 
-// Helpers
-.text-right { text-align: right; }
-.no-margin { margin: 0; }
 
-.flex {
-	@media (min-width: 580px) {
-		display: flex;
-		flex-wrap: wrap;
-	}
-}
-.arrownd { justify-content: space-around;}
-.between { justify-content: space-between;}
-
-// Cores
-$btp-color       : #f35216;
-$btp-color-title : #ffffff;
-$cns-color       : #9aca3c;
-$cns-color-title : #ffffff;
-$cc-color        : #592b6d;
-$cc-color-title  : #ffffff;
-$dnl-color       : #3b3b3a;
-$dnl-color-title : #ffcb0b;
-
-// Temas
-$lojas: (
-	brastemp: (
-		cor-loja   : $btp-color,
-		cor-titulo : $btp-color-title
-	),
-	consul: (
-		cor-loja   : $cns-color,
-		cor-titulo : $cns-color-title
-	),
-	compra-certa: (
-		cor-loja   : $cc-color,
-		cor-titulo : $cc-color-title
-	),
-	direto-na-loja: (
-		cor-loja   : $dnl-color,
-		cor-titulo : $dnl-color-title
-	)
-);
-
-@each $loja, $cor in $lojas {
-	$cor-loja: map-get($cor, cor-loja);
-	$cor-titulo: map-get($cor, cor-titulo);
-
-	body[class*='#{$loja}'] {
-		background-color: $cor-loja;
-		.page-title { color: $cor-titulo; }
-
-		.copy-icon { fill: $cor-titulo; }
-
-		button,
-		input[type='submit'],
-		input[type='reset'] {
-			background-color: $cor-loja;
-			border: 2px solid $cor-loja;
-			color: $cor-titulo;
-
-			&:hover {
-				background-color: $cor-titulo;
-				border: 2px solid $cor-loja;
-				color: $cor-loja;
-
-				.copy-icon { fill: $cor-loja; }
-			}
-		}
-
-		// Adicionar bordas redondas somente em Consul
-		@if $loja == 'consul' {
-			input,
-			select,
-			button { border-radius: 20px; }
-		}
-	}
-}
 
 // Container
 .container-wrap {
