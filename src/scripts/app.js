@@ -186,9 +186,10 @@
 
 	// Define o template com base na loja escolhida
 	app.generateUrl = (store, product, isColection) => {
+		let urlPattern = /(([a-z]+:\/\/)?(([a-z0-9\-]+\.)+([a-z]{2}|com|br)))\//;
 		let urlType = isColection ? '/busca/?fq=H:' : '';
 		let paramColecao = isColection ? '&' : '?';
-		let paramProduct = urlType + product;
+		let paramProduct = urlType + (urlPattern.test(product) ? product.replace(urlPattern, '/') : product);
 		let completeUrl;
 
 		if (store.includes('Corp')) {
