@@ -1,0 +1,33 @@
+@each $loja, $attr, $test in $lojas {
+	$cor-loja: map-get($attr, cor-loja);
+	$cor-titulo: map-get($attr, cor-titulo);
+
+	body[class*='#{$loja}'] {
+		background-color: $cor-loja;
+		.page-title { color: $cor-titulo; }
+
+		.copy-icon { fill: $cor-titulo; }
+
+		button,
+		input[type='submit'],
+		input[type='reset'] {
+			background-color: $cor-loja;
+			border: 2px solid $cor-loja;
+			color: $cor-titulo;
+
+			&:hover {
+				background-color: $cor-titulo;
+				border: 2px solid $cor-loja;
+				color: $cor-loja;
+
+				.copy-icon { fill: $cor-loja; }
+			}
+        }
+        
+        @if map-get($attr, border-radius) {
+            input,
+			select,
+			button { border-radius: map-get($attr, border-radius) }
+        }
+	}
+}
