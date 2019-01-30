@@ -196,7 +196,7 @@
 			completeUrl = `${urlLoja}${paramProduct}${paramColecao}utmi_cp=${paramCp}&utmi_pc=${paramPc}&login=${paramLogin}&ReturnUrl=${paramProduct}${paramColecao}utm_source=${paramSource}&utm_medium=${paramMedium}&utm_campaign=${paramCampaign}&email=${paramEmail}&utm_content=${paramContent}&utm_term=${paramTerm}&`;
 		}
 		else if (store.includes('Colab')) {
-			completeUrl = `${urlLoja}/sistema/401?ReturnUrl=${paramProduct}${paramColecao}utmi_cp=${paramCp}&utmi_pc=${paramPc}&utm_source=${paramSource}&utm_medium=${paramMedium}&utm_campaign=${paramCampaign}&utm_content=${paramContent}&utm_term=${paramTerm}&`;
+			completeUrl = `${urlLoja}?ReturnUrl=${paramProduct}${paramColecao}utmi_cp=${paramCp}&utmi_pc=${paramPc}&utm_source=${paramSource}&utm_medium=${paramMedium}&utm_campaign=${paramCampaign}&utm_content=${paramContent}&utm_term=${paramTerm}&`;
 			// completeUrl = `${urlLoja}/sistema/401?email=${paramEmail}&ReturnUrl=${paramProduct}${paramColecao}utmi_cp=${paramCp}&utmi_pc=${paramPc}&utm_source=${paramSource}&utm_medium=${paramMedium}&utm_campaign=${paramCampaign}&utm_content=${paramContent}&utm_term=${paramTerm}&`;
 		}
 		else {
