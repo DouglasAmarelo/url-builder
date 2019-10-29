@@ -20,7 +20,7 @@
 		paramCampaign,
 		paramCp,
 		paramPc,
-		paramEmail,
+		// paramEmail,
 		paramContent,
 		paramTerm;
 
@@ -115,7 +115,7 @@
 		paramCampaign = $form.utmCampaign.value;
 		paramCp       = $form.utmiCp.value;
 		paramPc       = $form.utmiPc.value;
-		paramEmail    = paramLogin;
+		// paramEmail    = paramLogin;
 		paramContent  = $form.utmContent.value;
 		paramTerm     = $form.utmTerm.value;
 	};
@@ -193,7 +193,7 @@
 		let completeUrl;
 
 		if (store.includes('Corp')) {
-			completeUrl = `${urlLoja}${paramProduct}${paramColecao}utmi_cp=${paramCp}&utmi_pc=${paramPc}&login=${paramLogin}&ReturnUrl=${paramProduct}${paramColecao}utm_source=${paramSource}&utm_medium=${paramMedium}&utm_campaign=${paramCampaign}&email=${paramEmail}&utm_content=${paramContent}&utm_term=${paramTerm}&`;
+			completeUrl = `${urlLoja}${paramProduct}${paramColecao}utmi_cp=${paramCp}&utmi_pc=${paramPc}&login=${paramLogin}&ReturnUrl=${paramProduct}${paramColecao}utm_source=${paramSource}&utm_medium=${paramMedium}&utm_campaign=${paramCampaign}&login=${paramLogin}&utm_content=${paramContent}&utm_term=${paramTerm}&`;
 		}
 		else if (store.includes('Colab')) {
 			completeUrl = `${urlLoja}?ReturnUrl=${paramProduct}${paramColecao}utmi_cp=${paramCp}&utmi_pc=${paramPc}&utm_source=${paramSource}&utm_medium=${paramMedium}&utm_campaign=${paramCampaign}&utm_content=${paramContent}&utm_term=${paramTerm}&`;
